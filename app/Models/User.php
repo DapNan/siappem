@@ -31,6 +31,8 @@ class User extends Authenticatable
         'npwp_perusahaan',
         'alamat_perusahaan',
         'nib',
+        'akta_pendiri',
+        'ktp_pendiri'
     ];
 
     /**

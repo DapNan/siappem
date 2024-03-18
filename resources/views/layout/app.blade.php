@@ -13,6 +13,11 @@
   
   <!-- Custom styles for this template-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+  <style>
+    .hidden {
+        display: none;
+    }
+</style>
 </head>
 <body id="page-top">
   <!-- Page Wrapper -->
@@ -79,5 +84,39 @@
   
 <script src="{{ asset('admin_assets/js/demo/chart-area-demo.js') }}"></script>
   <script src="{{ asset('admin_assets/js/demo/chart-pie-demo.js') }}"></script>
+ 
+ <script src="{{ asset('admin_assets/js/demo/chart-area-demo.js') }}"></script>
+  <script src="{{ asset('admin_assets/js/demo/chart-pie-demo.js') }}"></script>
+  <script>
+    function toggleInput(checkboxId, inputId) {
+        var checkbox = document.getElementById(checkboxId);
+        var input = document.getElementById(inputId);
+        
+        // Membuat input dapat diedit saat checkbox dicentang
+        checkbox.addEventListener('change', function() {
+            input.disabled = !this.checked;
+            input.classList.toggle('hidden', !this.checked);
+            // input.classList.remove("tes");
+            // if (this.checked) {
+            //     input.focus();
+            // }
+        });
+    }
+
+    toggleInput('checkbox_lahan_makam', 'input_lahan_makam');
+    toggleInput('checkbox_jalan', 'input_jalan');
+    toggleInput('checkbox_saluran', 'input_saluran');
+    toggleInput('checkbox_rth', 'input_rth');
+    toggleInput('checkbox_sarana_peribadatan', 'input_sarana_peribadatan');
+    toggleInput('checkbox_pju', 'input_pju');
+    toggleInput('checkbox_tps', 'input_tps');
+    toggleInput('checkbox_pos_pengamanan', 'input_pos_pengamanan');
+    toggleInput('checkbox_subsidi', 'input_subsidi');
+    toggleInput('checkbox_non_subsidi', 'input_non_subsidi');
+    toggleInput('checkbox_ruko', 'input_ruko');
+    
+</script>
+
+
 </body>
 </html>

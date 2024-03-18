@@ -93,7 +93,7 @@
         <table width="100%">
             <tr>
                 <td class="tengah" width="150">
-                    <img src="{{ URL::asset('/img/Screenshot 2023-12-05 084553.png') }}" width="100px" alt="">
+                    <img src="{{ URL::asset('/img/siappem-dprkp2.png') }}" width="100px" alt="">
                 </td>
                 <td class="tengah" width="300">
                     <h3>Dokumen ini sah, diterbitkan secara elektronik melalui SIAPPEM DPRKP2</h3>

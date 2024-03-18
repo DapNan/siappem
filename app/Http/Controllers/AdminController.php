@@ -14,10 +14,24 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    public function detailprofile(string $id)
+    {
+        $user = User::where('id',$id)->first();
+        return view('admin/user.detailprofile',compact('user'));
+    }
+
+    public function tampilsurat(string $id, $jenisSurat)
+    {
+        $user = User::where('id',$id)->first();
+        return view('admin/user.tampilsurat',compact('user'),['jenisSurat' => $jenisSurat]);
+    }
 
     public function show(string $id)
     {
-        $perumahan = Perumahan::join('users', 'perumahans.user_id', '=', 'users.id')->findOrFail($id);
+        $perumahan = Perumahan::join('users', 'perumahans.user_id', '=', 'users.id')
+        ->join('jenis_perumahan', 'perumahans.id_jenis_perumahan', '=', 'jenis_perumahan.id')
+        ->join('jenis_psu', 'perumahans.id_jenis_psu', '=', 'jenis_perumahan.id')
+        ->findOrFail($id);
   
         return view('admin/perumahan.show', compact('perumahan'));
     }
@@ -118,4 +132,21 @@ class AdminController extends Controller
         return redirect()->route('perumahan')->with('toast_success', 'perumahan updated successfully');
     }
 
+    public function updateditolak(Request $request, string $id)
+    {
+        
+        $this->validate($request, [
+            'alasan_ditolak' => 'required|string',
+        ]);
+        
+        $perumahan = Perumahan::findOrFail($id);
+
+        $perumahan->status = 'ditolak';
+        $perumahan->alasan_ditolak = $request->alasan_ditolak;
+
+        $perumahan->save();
+    
+    return redirect()->route('perumahan')->with('toast_success', 'perumahan ditolak');
+    }
+    
 }

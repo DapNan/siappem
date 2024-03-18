@@ -23,9 +23,13 @@ return new class extends Migration
             $table->string('nama_pemilik', 100);
             $table->string('nik_pemilik');
             $table->string('no_hp_pemilik');
-            $table->string('npwp_perusahaan');
             $table->string('alamat_perusahaan', 200);
             $table->string('nib');
+//file
+            $table->string('akta_pendiri');
+            $table->string('npwp_perusahaan');
+            $table->string('ktp_pendiri');
+            
             $table->rememberToken();
             $table->timestamps();
         });

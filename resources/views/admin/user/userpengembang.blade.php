@@ -23,9 +23,9 @@
       </div>
     </form>
     <br>
-    <div class="table-responsive">
-        <div class="card">
-            <div class="card-body">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
                 <table class="table table-hover">
                     <thead class="table-dark">
                         <tr>
@@ -33,7 +33,7 @@
                                 <th>#</th>
                                 <th width="200">Nama Perusahaan</th>
                                 <th>Penanggung Jawab</th>
-                                <th>NIK/NIB/NPWP</th>
+                                <th>NIK/NIB</th>
                                 <th>Telp</th>
                                 <th>Lokasi usaha</th>
                                 <th>Aksi</th>
@@ -49,13 +49,14 @@
                                     <td class="align-middle">{{ $loop->iteration }}</td>
                                     <td class="align-middle">{{ $up->nama_badan_usaha }}</td>
                                     <td class="align-middle">{{ $up->name }}</td>
-                                    <td class="align-middle">{{ $up->nik_pemilik }}/{{ $up->nib }}/{{ $up->npwp_perusahaan }}</td>
+                                    <td class="align-middle">{{ $up->nik_pemilik }}/{{ $up->nib }}</td>
                                     <td class="align-middle">{{ $up->no_hp_pemilik }}</td>
                                     
                                     <td class="align-middle">{{ $up->alamat_perusahaan }}</td>
                                     {{-- <td class="align-middle">{{ $pr->status }}</td>   --}}
                                     <td>
                                         <a href="{{ route('perumahan.perumahanbyuser', $up->id) }}" type="button" class="btn btn-warning"><i class="fas fa-eye"></i> Lihat</a>
+                                        <a href="{{ route('user.detailprofile',$up->id) }}" type="button" class="btn btn-secondary">Detail</a>
                                     </td>
                                 </tr>
                             @endforeach

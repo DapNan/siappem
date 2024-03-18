@@ -29,7 +29,7 @@
        
                 <tr>
                     <td class="align-middle">1.</td>
-                    <td class="align-middle">Surat Permohonan Penyerahan PSU kepada Bupati Mojokerto</td>
+                    <td class="align-middle">Surat Permohonan Penyerahan PSU kepada Bupati Mojokerto (tembusan ke DPRKP2)</td>
                     <td>
                         {{-- {{ $pr->jenis }} --}}
                         @if ($perumahan->surat_psu == '')
@@ -65,7 +65,7 @@
                 </tr>
                 <tr>
                     <td class="align-middle">3.</td>
-                    <td class="align-middle">Surat Ijin Membangun Bangunan</td>
+                    <td class="align-middle">IMB/PBG/SLF</td>
                     <td>
                         @if ($perumahan->imb == '')
                         <button class="btn bg-danger text-white">Silahkan upload terlebih dulu</button>
@@ -129,7 +129,7 @@
                 </tr>
                 <tr>
                     <td class="align-middle">7.</td>
-                    <td class="align-middle">Surat Pelepasan Tanah</td>
+                    <td class="align-middle">Surat Pelepasan Hak Tanah Akta Notaris</td>
                     <td>
                         @if ($perumahan->surat_pelepasan_tanah == '')
                         <button class="btn bg-danger text-white">Silahkan upload terlebih dulu</button>
@@ -197,6 +197,27 @@
  
     </tbody>
 </table>
+    @if ($perumahan->status == 'lengkapi_data')
+    <td>
+        <div class="col">
+            <form action="{{ route('perumahan.diserahkan', $perumahan->id_perumahan) }}" method="post">
+                @csrf
+                @method('post')
+                <button type="submit" class="btn btn-info">Serahkan data</button>
+            </form>
+        </div>
+    </td>
+    @elseif($perumahan->status == 'ditolak')
+    <td>
+      <div class="col">
+          <form action="{{ route('perumahan.diserahkan', $perumahan->id_perumahan) }}" method="post">
+              @csrf
+              @method('post')
+              <button type="submit" class="btn btn-info">Perbarui data</button>
+          </form>
+      </div>
+  </td>
+    @endif
     </div>
 </div>
 

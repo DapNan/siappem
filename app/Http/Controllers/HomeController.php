@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Perumahan;
+use App\Models\jenis_perumahan;
 
 class HomeController extends Controller
 {
@@ -70,15 +71,17 @@ class HomeController extends Controller
         $jumlahDataDiterima = Perumahan::where('status', 'diterima')
             ->count();
         
-        $jumlahJenisSubsidi = Perumahan::where('jenis','subsidi')->count();
+        $jumlahJenisSubsidi = jenis_perumahan::sum('subsidi');
         
-        $jumlahJenisNonSubsidi = Perumahan::where('jenis','non_subsidi')->count();
+        $jumlahJenisNonSubsidi = jenis_perumahan::sum('non_subsidi');
+
+        $jumlahJenisRuko = jenis_perumahan::sum('ruko');
 
         $data = [
             'title' => 'dashboard',
         ];
 
-        return view('admin/adminHome', compact('jumlahDataUser','jumlahDataPerumahan','jumlahDataProses','jumlahDataDiterima','jumlahJenisSubsidi','jumlahJenisNonSubsidi'), $data );
+        return view('admin/adminHome', compact('jumlahDataUser','jumlahDataPerumahan','jumlahDataProses','jumlahDataDiterima','jumlahJenisSubsidi','jumlahJenisNonSubsidi','jumlahJenisRuko'), $data );
     }
     
     /**

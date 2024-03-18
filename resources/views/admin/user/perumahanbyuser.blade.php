@@ -45,7 +45,6 @@
                                         <th width="200">Nama perumahan</th>
                                         <th>Pengembang</th>
                                         <th>Alamat</th>
-                                        <th width="100">Jenis</th>
                                         <th>Status</th>
                                         <th width="130">Syarat</th>
                                         <th>Tanda terima</th>
@@ -60,15 +59,7 @@
                                                 <td class="align-middle">{{ $pr->nama_perumahan }}</td>
                                                 <td class="align-middle">{{ $pr->name }}</td>
                                                 <td class="align-middle">{{ $pr->alamat }}</td>
-                                                <td class="align-middle">
-                                                    {{-- {{ $pr->jenis }} --}}
-                                                    @if ($pr->jenis == 'subsidi')
-                                                       Subsidi
-                                                    @elseif($pr->jenis == 'non_subsidi')
-                                                        Non subsidi
-                                                    
-                                                        @endif
-                                                </td>
+                                               
                                                 <td class="align-middle">
                                                     <span class="badge text-white
                                                     @if ($pr->status == 'lengkapi_data') bg-warning

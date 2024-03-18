@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PerumahanController;
 use App\Http\Controllers\PengembangController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+Route::get('profile', [ProfileController::class, 'profile'])->name('profile.profile');
+Route::get('profile/editprofile', [ProfileController::class, 'editprofile'])->name('profile.editprofile');
+Route::put('profile/updateprofile',[ProfileController::class,'updateprofile'])->name('profile.updateprofile');
+Route::get('showsurat/{jenisSurat}', [ProfileController::class, 'showsurat'])->name('profile.showsurat');
+
+Route::get('profile/changepassword', [ProfileController::class, 'changePassword'])->name('profile.changepassword');
+Route::post('profile/updatepassword', [ProfileController::class, 'updatePassword'])->name('profile.updatepassword');
+
 Route::view('/notfound', 'errors.notfound');
 
 //Normal Users Routes List
@@ -37,12 +47,15 @@ Route::middleware(['auth', 'user-access:pengembang'])->group(function () {
     });
 
     Route::controller(PengembangController::class)->prefix('perumahan')->group(function () {
-      
 
         Route::get('create', 'create')->name('perumahan.create');
         Route::post('store', 'store')->name('perumahan.store');
+        Route::post('cobastore', 'cobaStore')->name('perumahan.cobastore');
         Route::get('pengembang/show/{id}', 'show')->name('perumahan.show');
         Route::get('edit/{id}', 'edit')->name('perumahan.edit');
+        
+        Route::put('cobaupdate/{id}', 'cobaUpdate')->name('perumahan.cobaupdate');
+
         Route::put('edit/{id}', 'update')->name('perumahan.update');
         Route::delete('/hapus/{id}', 'hapus')->name('perumahan.hapus');
         
@@ -70,6 +83,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     });
 
     Route::controller(AdminController::class)->prefix('perumahan')->group(function () {
+    Route::get('detailprofile/{id}', 'detailprofile')->name('user.detailprofile');
+    Route::get('tampilsurat/{id}/{jenisSurat}', 'tampilsurat')->name('user.tampilsurat');
     // Route::get('create', 'create')->name('perumahan.create');
     // Route::post('store', 'store')->name('perumahan.store');
     Route::get('show/{id}', 'show')->name('perumahan.lihat');
@@ -87,9 +102,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     
     Route::get('lihatsurat/{id}/{jenisSurat}', 'lihatsurat')->name('perumahan.lihatsurat');
     
-    Route::get('uploadbast/{id}', 'uploadbast')->name('perumahan.uploadbast');
-    Route::put('uploadbast/{id}', 'updatebast')->name('perumahan.updatebast');
+    Route::put('updateditolak/{id}', 'updateditolak')->name('perumahan.updateditolak');
+
     });
 
 });
-   

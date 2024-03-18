@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\UploadedFile;
 
 class RegisterController extends Controller
 {
@@ -57,9 +58,13 @@ class RegisterController extends Controller
             'nama_pemilik' => ['required', 'string', 'max:255'],
             'nik_pemilik' => ['required', 'string', 'max:255'],
             'no_hp_pemilik' => ['required', 'string', 'max:255'],
-            'npwp_perusahaan' => ['required', 'string', 'max:255'],
             'alamat_perusahaan' => ['required', 'string', 'max:255'],
             'nib' => ['required', 'string', 'max:255'],
+
+            'npwp_perusahaan' => ['required', 'file'],
+            'akta_pendiri' => ['required', 'file'],
+            'ktp_pendiri' => ['required', 'file'],
+
         ]);
     }
 
@@ -71,6 +76,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $aktaPendiri = $data['akta_pendiri'];
+        $ktpPendiri = $data['ktp_pendiri'];
+        $npwpPerusahaan = $data['npwp_perusahaan'];
+
+        $aktaPendiriPath = $aktaPendiri->store('public/akta_pendiri');
+        $ktpPendiriPath = $ktpPendiri->store('public/ktp_pendiri');
+        $npwpPerusahaanPath = $npwpPerusahaan->store('public/npwp_perusahaan');
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -79,9 +92,12 @@ class RegisterController extends Controller
             'nama_pemilik' => $data['nama_pemilik'],
             'nik_pemilik' => $data['nik_pemilik'],
             'no_hp_pemilik' => $data['no_hp_pemilik'],
-            'npwp_perusahaan' => $data['npwp_perusahaan'],
             'alamat_perusahaan' => $data['alamat_perusahaan'],
             'nib' => $data['nib'],
+            
+            'npwp_perusahaan' => $npwpPerusahaanPath,
+            'ktp_pendiri' => $ktpPendiriPath,
+            'akta_pendiri' => $aktaPendiriPath,
         ]);
     }
 }

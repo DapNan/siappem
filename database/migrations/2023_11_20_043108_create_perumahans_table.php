@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perumahans', function (Blueprint $table) {
+        Schema::create('perumahan', function (Blueprint $table) {
             $table->id('id_perumahan');
-            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('user_id');
+
+            $table->unsignedBigInteger('id_jenis_psu');
+
+            $table->unsignedBigInteger('id_jenis_perumahan');
+
             $table->string('nama_perumahan');
             $table->string('alamat');
             $table->enum('jenis',['subsidi','non_subsidi']);
@@ -35,7 +40,9 @@ return new class extends Migration
             $table->string('bast')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_jenis_psu')->references('id_jenis_psu')->on('jenis_psu')->onDelete('cascade');
+            $table->foreign('id_jenis_perumahan')->references('id_jenis_perumahan')->on('jenis_perumahan')->onDelete('cascade');
         });
     }
 

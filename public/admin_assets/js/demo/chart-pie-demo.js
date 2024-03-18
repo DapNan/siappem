@@ -8,14 +8,15 @@ document.addEventListener("DOMContentLoaded", function() {
   var myPieChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ["Subsidi", "Non subsidi"],
+      labels: ["Subsidi", "Non subsidi","Ruko"],
       datasets: [{
         data: [
           parseInt(ctx.getAttribute('data-subsidi')),
-          parseInt(ctx.getAttribute('data-non-subsidi'))
+          parseInt(ctx.getAttribute('data-non-subsidi')),
+          parseInt(ctx.getAttribute('data-ruko'))
         ],
-        backgroundColor: ['#4e73df', '#1cc88a'],
-        hoverBackgroundColor: ['#2e59d9', '#17a673'],
+        backgroundColor: ['#4e73df', '#1cc88a','#5bc0de'],
+        hoverBackgroundColor: ['#2e59d9', '#17a673','#418da3'],
         hoverBorderColor: "rgba(234, 236, 244, 1)",
       }],
     },

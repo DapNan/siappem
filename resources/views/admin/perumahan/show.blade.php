@@ -7,6 +7,22 @@
     <div class="">
         <div class="card shadow mb-4">
             <div class="card-body">
+                @if ($perumahan->status == 'ditolak')
+                <div class="card shadow mb-4 bg-gradient-danger">
+                    <!-- Card Header - Accordion -->
+                    <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                        aria-expanded="true" aria-controls="collapseCardExample">
+                        <h6 class="m-0 font-weight-bold text-danger">DATA DITOLAK</h6>
+                    </a>
+                    <!-- Card Content - Collapse -->
+                    <div class="collapse show" id="collapseCardExample">
+                        <div class="card-body text-white">
+                            Alasan : {{ $perumahan->alasan_ditolak }}
+                        </div>
+                    </div>
+                </div>
+            @endif
+
                 <table class="text-gray-800">
                     <tbody>
                         <tr class="font-weight-bold">
@@ -36,38 +52,87 @@
                         </tr>
                         <tr>
                             <td width="20">4. </td>
-                            <td width="275">JENIS PERUMAHAN </td>
-                            <td width="10">:</td>
-                            <td>
-                                @if ($perumahan->jenis == 'subsidi')
-                                    Subsidi
-                                @elseif($perumahan->jenis == 'non_subsidi')
-                                    Non subsidi
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="20">5. </td>
                             <td width="275">TAHUN PEMBANGUNAN </td>
                             <td width="10">:</td>
                             <td>{{ $perumahan->tahun_pembangunan }}</td>
                         </tr>
                         <tr>
-                            <td width="20">6. </td>
+                            <td width="20">5. </td>
                             <td width="275">NO HP PENANGGUNG JAWAB </td>
                             <td width="10">:</td>
                             <td>{{ $perumahan->no_hp_pj }}</td>
                         </tr>
                         <tr>
+                            <td width="20">6. </td>
+                            <td width="275">TAHUN PENGESAHAN SITEPLAN </td>
+                            <td width="10">:</td>
+                            <td>{{ $perumahan->tahunprt }}</td>
+                        </tr>
+                        <tr>
                             <td width="20">7. </td>
+                            <td width="275">TAHUN TERBIT IMB/PBG/SLF </td>
+                            <td width="10">:</td>
+                            <td>{{ $perumahan->tahunterbit }}</td>
+                        </tr>
+                        <tr>
+                            <td width="20">8. </td>
+                            <td width="275">JENIS PERUMAHAN </td>
+                            <td width="10">:</td>
+                            <td>
+                                @if ($perumahan->subsidi > 0)
+                                    <li>
+
+                                        Subsidi : {{ $perumahan->subsidi }} unit</li>
+                                @endif
+                                @if ($perumahan->non_subsidi > 0)
+                                    <li>Non subsidi : {{ $perumahan->non_subsidi }} unit</li>
+                                @endif
+                                @if ($perumahan->ruko > 0)
+                                    <li>Ruko : {{ $perumahan->ruko }} unit</li>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20">9. </td>
+                            <td width="275">NAMA ASOSIASI PERUMAHAN </td>
+                            <td width="10">:</td>
+                            <td>
+                                @if ($perumahan->nama_asosiasi != null)
+                                    <strong>{{ $perumahan->nama_asosiasi }}</strong>
+                                @else
+                                    <strong>
+                                        Belum di isi
+                                    </strong>
+                                    *opsional
+                                @endif
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td width="20">10. </td>
+                            <td width="375">NOMOR REGISTRASI ASOSIASI PERUMAHAN </td>
+                            <td width="10">:</td>
+                            <td>
+                                @if ($perumahan->nomor_registrasi != null)
+                                    <strong>{{ $perumahan->nomor_registrasi }}</strong>
+                                @else
+                                    <strong>
+                                        Belum di isi
+                                    </strong>
+                                    *opsional
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="30">11. </td>
                             <td width="275">STATUS </td>
                             <td width="10">:</td>
                             <td>
                                 <span
                                     class="badge text-white
-                        @if ($perumahan->status == 'lengkapi_data') bg-info
+                        @if ($perumahan->status == 'lengkapi_data') bg-warning
                             @elseif($perumahan->status == 'ditolak') bg-danger
-                                @elseif($perumahan->status == 'diterima')bg-success 
+                                @elseif($perumahan->status == 'diterima')bg-success
                                 @elseif($perumahan->status == 'proses_verifikasi')bg-info @endif">
                                     @if ($perumahan->status == 'lengkapi_data')
                                         Data belum diserahkan
@@ -80,21 +145,45 @@
                             </td>
                         </tr>
                         <tr>
-                            <td width="20">8. </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td width="20">12. </td>
                             <td width="275">Jenis PSU </td>
                             <td width="10">:</td>
                             <td>
-                                <ul>
-                                    {{-- Loop untuk menampilkan setiap elemen dalam array --}}
-                                    @foreach (explode(',', $perumahan->jenis_psu) as $data)
-                                        <li>{{ str_replace('_', ' ', $data) }}</li>
-                                    @endforeach
-                                </ul>
-
-
+                                @if ($perumahan->lahan_makam > 0)
+                                    <li>
+                                        Lahan Makam : <strong>{{ $perumahan->lahan_makam }} m<sup>2</sup></strong></li>
+                                @endif
+                                @if ($perumahan->jalan > 0)
+                                    <li>Jalan : <strong>{{ $perumahan->jalan }} m<sup>2</sup></strong></li>
+                                @endif
+                                @if ($perumahan->saluran > 0)
+                                    <li>Saluran : <strong>{{ $perumahan->saluran }} m<sup>2</sup></strong></li>
+                                @endif
+                                @if ($perumahan->rth > 0)
+                                    <li>Ruang terbuka hijau : <strong>{{ $perumahan->rth }} m<sup>2</sup></strong></li>
+                                @endif
+                                @if ($perumahan->sarana_peribadatan > 0)
+                                    <li>Sarana Peribadatan : <strong>{{ $perumahan->sarana_peribadatan }}
+                                            m<sup>2</sup></strong></li>
+                                @endif
+                                @if ($perumahan->pju > 0)
+                                    <li>Penerangan Jalan Umum : <strong>{{ $perumahan->pju }} m<sup>2</sup></strong></li>
+                                @endif
+                                @if ($perumahan->tps > 0)
+                                    <li>Tempat Pengolahan Sampah : <strong>{{ $perumahan->tps }} m<sup>2</sup></strong>
+                                    </li>
+                                @endif
+                                @if ($perumahan->pos_pengamanan > 0)
+                                    <li>Pos pengamanan : <strong>{{ $perumahan->pos_pengamanan }} m<sup>2</sup></strong>
+                                    </li>
+                                @endif
                             </td>
                         </tr>
-
 
                     </tbody>
 
@@ -140,14 +229,8 @@
                             <td>{{ $perumahan->no_hp_pemilik }}</td>
                         </tr>
                         <tr>
-                            <td width="20">6. </td>
-                            <td width="275">NPWP PERUSAHAAN </td>
-                            <td width="10">:</td>
-                            <td>{{ $perumahan->npwp_perusahaan }}</td>
-                        </tr>
-                        <tr>
                             <td width="20">7. </td>
-                            <td width="275">NIB </td>
+                            <td width="275">NOMOR INDUK BERUSAHA </td>
                             <td width="10">:</td>
                             <td>{{ $perumahan->nib }}</td>
                         </tr>
@@ -155,78 +238,9 @@
                     </tbody>
                 </table>
                 <br>
-                <table>
-                    <tr class="align-middle">
-
-                        @if ($perumahan->status == 'proses_verifikasi')
-                            <td>
-                                <div class="col">
-
-                                    <a href="" type="button" class="btn btn-success" data-toggle="modal"
-                                        data-target="#diterimauploadbast"><i class="fas fa-check-circle"></i> Terima
-                                        data</a>
-
-                                </div>
-                            </td>
-                            <td>
-                                <div class="">
-
-                                    <form action="{{ route('perumahan.ditolak', $perumahan->id_perumahan) }}"
-                                        method="post">
-                                        @csrf
-                                        @method('post')
-                                        <button type="submit" class="btn btn-danger"><i class="	fas fa-window-close"></i>
-                                            Tolak data</button>
-                                    </form>
-                                </div>
-                            </td>
-                        @elseif($perumahan->status == 'lengkapi_data')
-
-                        @elseif($perumahan->status == 'diterima')
-                            <button class="btn btn-success">Data diterima</button>
-                        @elseif($perumahan->status == 'ditolak')
-                            <button class="btn btn-danger">Data ditolak</button>
-                        @endif
-
-                    </tr>
-
-                </table>
-
-
             </div>
         </div>
     </div>
 
 
-    <div class="modal fade" id="diterimauploadbast"+ tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Upload BAST</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="card-body text-gray-900">
-                        <form action="{{ route('perumahan.updatebast', $perumahan->id_perumahan) }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-
-                            <label for="bast">Berita Acara Serah Terima (BAST) :</label>
-                            <input type="file" class="form-control" name="bast">
-                            <br>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

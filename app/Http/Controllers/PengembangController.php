@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\Perumahan;
+use App\Models\jenis_psu;
+use App\Models\jenis_perumahan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
@@ -13,13 +15,137 @@ use Illuminate\Support\Facades\Storage;
 
 class PengembangController extends Controller
 {
+  
     
     public function create()
     {
         return view('pengembang/perumahan.create');
     }
 
-    
+    public function cobaStore(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'user_id'   => 'required',
+            'nama_perumahan'     => 'required',
+            'alamat' => 'required',
+            'tahun_pembangunan' => 'required',
+            'no_hp_pj' => 'required',
+            'status' => "lengkapi_data",
+            'tahunprt' => 'required',
+            'tahunterbit' => 'required',
+            'nama_asosiasi' => 'nullable|string',
+            'nomor_registrasi' => 'nullable|string',
+
+            'lahan_makam' =>'string',
+            'jalan' => 'string',
+            'saluran' => 'string',
+            'rth' => 'string',
+            'sarana_peribadatan' => 'string',
+            'pju'  => 'string',
+            'tps'  => 'string',
+            'pos_pengamanan' => 'string',
+
+            'subsidi' => 'string',
+            'non_subsidi' => 'string',
+            'ruko'  => 'string',
+        ]);
+
+        $jenisPsu = jenis_psu::create([
+            'lahan_makam' => $request->lahan_makam,
+            'jalan' => $request->jalan,
+            'saluran' => $request->saluran,
+            'rth' => $request->rth,
+            'sarana_peribadatan' => $request->sarana_peribadatan,
+            'pju' => $request->pju,
+            'tps' => $request->tps,
+            'pos_pengamanan' => $request->pos_pengamanan,
+        ]);
+
+        $jenisPerumahan = jenis_perumahan::create([
+            'subsidi' => $request->subsidi,
+            'non_subsidi' => $request->non_subsidi,
+            'ruko' => $request->ruko,
+        ]);
+
+        $perumahan = Perumahan::create([
+            'user_id' => $request->user_id,
+            'id_jenis_psu' => $jenisPsu->id,
+            'id_jenis_perumahan' => $jenisPerumahan->id,
+            'nama_perumahan' => $request->nama_perumahan,
+            'alamat' => $request->alamat,
+            'tahun_pembangunan' => $request->tahun_pembangunan,
+            'no_hp_pj' => $request->no_hp_pj,
+            'status' => "lengkapi_data", // Jika status selalu "lengkapi_data"
+            'tahunprt' => $request->tahunprt,
+            'tahunterbit' => $request->tahunterbit,
+            'nama_asosiasi' => $request->nama_asosiasi,
+            'nomor_registrasi' => $request->nomor_registrasi,
+        ]);
+        
+        return redirect()->route('perumahanhome')->with('toast_success', 'Perumahan berhasil ditambahkan');
+    }
+        
+    public function cobaUpdate(Request $request, $id_perumahan): RedirectResponse
+    {
+        $request->validate([
+            'nama_perumahan'     => 'required',
+            'alamat' => 'required',
+            'tahun_pembangunan' => 'required',
+            'no_hp_pj' => 'required',
+            'tahunprt' => 'required',
+            'tahunterbit' => 'required',
+            'nama_asosiasi' => 'nullable|string',
+            'nomor_registrasi' => 'nullable|string',
+
+            'lahan_makam' =>'string',
+            'jalan' => 'string',
+            'saluran' => 'string',
+            'rth' => 'string',
+            'sarana_peribadatan' => 'string',
+            'pju'  => 'string',
+            'tps'  => 'string',
+            'pos_pengamanan' => 'string',
+
+            'subsidi' => 'string',
+            'non_subsidi' => 'string',
+            'ruko'  => 'string',
+        ]);
+
+        $perumahan = Perumahan::findOrFail($id_perumahan);
+
+        $jenisPsu = jenis_psu::findOrFail($perumahan->id_jenis_psu);
+        $jenisPsu->update([
+            'lahan_makam' => $request->lahan_makam,
+            'jalan' => $request->jalan,
+            'saluran' => $request->saluran,
+            'rth' => $request->rth,
+            'sarana_peribadatan' => $request->sarana_peribadatan,
+            'pju' => $request->pju,
+            'tps' => $request->tps,
+            'pos_pengamanan' => $request->pos_pengamanan,
+        ]);
+
+        $jenisPerumahan = jenis_perumahan::findOrFail($perumahan->id_jenis_perumahan);
+        $jenisPerumahan->update([
+            'subsidi' => $request->subsidi,
+            'non_subsidi' => $request->non_subsidi,
+            'ruko' => $request->ruko,
+        ]);
+
+        $perumahan->update([
+            'nama_perumahan' => $request->nama_perumahan,
+            'alamat' => $request->alamat,
+            'tahun_pembangunan' => $request->tahun_pembangunan,
+            'no_hp_pj' => $request->no_hp_pj,
+            'tahunprt' => $request->tahunprt,
+            'tahunterbit' => $request->tahunterbit,
+            'nama_asosiasi' => $request->nama_asosiasi,
+            'nomor_registrasi' => $request->nomor_registrasi,
+        ]);
+
+        return redirect()->route('perumahanhome')->with('toast_success', 'Perumahan berhasil diperbarui');
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
@@ -50,14 +176,20 @@ class PengembangController extends Controller
     }
     public function show(string $id)
     {
-        $perumahan = Perumahan::join('users', 'perumahans.user_id', '=', 'users.id')->findOrFail($id);
+        $perumahan = Perumahan::join('users', 'perumahans.user_id', '=', 'users.id')
+        ->join('jenis_perumahan', 'perumahans.id_jenis_perumahan', '=', 'jenis_perumahan.id')
+        ->join('jenis_psu', 'perumahans.id_jenis_psu', '=', 'jenis_psu.id')
+        ->findOrFail($id);
   
         return view('pengembang/perumahan.show', compact('perumahan'));
     }
 
     public function edit(string $id)
     {
-        $perumahan = Perumahan::findOrFail($id);
+        $perumahan = Perumahan::join('users', 'perumahans.user_id', '=', 'users.id')
+        ->join('jenis_perumahan', 'perumahans.id_jenis_perumahan', '=', 'jenis_perumahan.id')
+        ->join('jenis_psu', 'perumahans.id_jenis_psu', '=', 'jenis_psu.id')
+        ->findOrFail($id);
   
         return view('pengembang/perumahan.edit', compact('perumahan'));
     }
@@ -101,12 +233,7 @@ class PengembangController extends Controller
         
 
         $this->validate($request, [
-            'nama_perumahan'     => 'required',
-            'alamat' => 'required',
-            'jenis' => 'required',
-            'tahun_pembangunan' => 'required',
-            'no_hp_pj' => 'required',
-            
+          
             'surat_psu' => 'mimes:pdf',
             'dokumen_tapak' => 'mimes:pdf',
             'imb' => 'mimes:pdf',
@@ -132,13 +259,7 @@ class PengembangController extends Controller
             }
 
             $perumahan->update([
-                    'nama_perumahan' => $request->nama_perumahan,
-                    'alamat'   => $request->alamat,
-                    'jenis'   => $request->jenis,
-                    'tahun_pembangunan'   => $request->tahun_pembangunan,
-                    'no_hp_pj' => $request->no_hp_pj,
-                    
-        
+             
                     'surat_psu' => $namasuratpsu,
                     
                 ]);
@@ -154,13 +275,7 @@ class PengembangController extends Controller
             Storage::delete('public/dokumen_tapak/'.$perumahan->dokumen_tapak);
             }
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
-                
-    
+           
                 'dokumen_tapak' => $namadokumentapak,
                 
             ]);
@@ -176,12 +291,6 @@ class PengembangController extends Controller
                 Storage::delete('public/imb/'.$perumahan->imb);
             }
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
-                
     
                 'imb' => $namasuratimb,
                 
@@ -197,13 +306,7 @@ class PengembangController extends Controller
             }
 
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
-                
-    
+               
                 'ijin_lokasi' => $namasuratijinlokasi,
                 
             ]);
@@ -218,13 +321,7 @@ class PengembangController extends Controller
             }
 
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
-                
-    
+              
                 'njop' => $namasuratnjop,
                 
             ]);
@@ -238,13 +335,7 @@ class PengembangController extends Controller
                 Storage::delete('public/sertifikat_fasum/'.$perumahan->sertifikat_fasum);
             }
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
                 
-    
                 'sertifikat_fasum' => $namasertifikatfasum,
                 
             ]);
@@ -258,13 +349,7 @@ class PengembangController extends Controller
                 Storage::delete('public/surat_pelepasan__tanah/'.$perumahan->surat_pelepasan_tanah);
             }
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
                 
-    
                 'surat_pelepasan_tanah' => $namasuratpelapasantanah,
                 
             ]);
@@ -278,16 +363,10 @@ class PengembangController extends Controller
                 Storage::delete('public/sertifikat_tpu/'.$perumahan->sertifikat_tpu);
             }
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
                 
-    
                 'sertifikat_tpu' => $namasertifikattpu,
-                
-            ]);
+             
+           ]);
         
         }
         if($request->hasFile('mou_tpu')){
@@ -299,13 +378,7 @@ class PengembangController extends Controller
                 Storage::delete('public/mou_tpu/'.$perumahan->mou_tpu);
             }
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
                 
-    
                 'mou_tpu' => $namasuratmoutpu,
                 
             ]);
@@ -320,28 +393,11 @@ class PengembangController extends Controller
                 Storage::delete('public/mou_tps/'.$perumahan->mou_tps);
             }
             $perumahan->update([
-                'nama_perumahan' => $request->nama_perumahan,
-                'alamat'   => $request->alamat,
-                'jenis'   => $request->jenis,
-                'tahun_pembangunan'   => $request->tahun_pembangunan,
-                'no_hp_pj' => $request->no_hp_pj,
                 
-    
                 'mou_tps' => $namasuratmoutps,
                 
             ]);
         
-        }
-        else{
-            $perumahan->update([
-                    'nama_perumahan' => $request->nama_perumahan,
-                    'alamat'   => $request->alamat,
-                    'jenis'   => $request->jenis,
-                    'tahun_pembangunan'   => $request->tahun_pembangunan,
-                    'no_hp_pj' => $request->no_hp_pj,
-                    
-                    
-                ]);
         }
   
   
@@ -354,10 +410,12 @@ class PengembangController extends Controller
     public function hapus(string $id)
     {
         $perumahan = Perumahan::findOrFail($id);
+    
         $perumahan->delete();
   
         return redirect()->route('perumahanhome')->with('toast_success', 'perumahan deleted successfully');
     }
+
 
     public function syarat($id)
     {

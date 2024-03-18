@@ -14,14 +14,18 @@ class Perumahan extends Model
     public $timestamps = false;
     protected $fillable = [
         'user_id',
+        'id_jenis_perumahan',
+        'id_jenis_psu',
         'nama_perumahan',
-        'gambar',
         'alamat',
         'jenis',
         'tahun_pembangunan',
         'no_hp_pj',
         'status',
-        'jenis_psu',
+        'tahunprt',
+        'tahunterbit',
+        'nama_asosiasi',
+        'nomor_registrasi',
         'surat_psu',
         'dokumen_tapak',
         'imb',
@@ -40,4 +44,5 @@ class Perumahan extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }

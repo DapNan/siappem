@@ -43,8 +43,7 @@
                         <div class="text-white">
                             <th>#</th>
                             <th width="200">Nama perumahan</th>
-                            <th>Alamat</th>
-                            <th>Jenis</th>
+                            <th width="200">Alamat</th>
                             <th>Status</th>
                             <th>Syarat</th>
                             <th>Tanda Terima</th>
@@ -61,13 +60,7 @@
                                 <td class="align-middle">{{ $pr->nama_perumahan }}</td>
 
                                 <td class="align-middle">{{ $pr->alamat }}</td>
-                                <td class="align-middle">
-                                    @if ($pr->jenis == 'subsidi')
-                                    Subsidi
-                                    @elseif($pr->jenis == 'non_subsidi')
-                                        Non subsidi
-                                    @endif
-                                </td>
+                              
                                 <td class="align-middle">
                                     <span
                                         class="badge text-white
@@ -116,6 +109,7 @@
                                             class="btn btn-secondary" >Detail</a>
                                         <a href="{{ route('perumahan.edit', $pr->id_perumahan) }}" type="button"
                                             class="btn btn-warning">Edit</a>
+                                       
                                         <form action="{{ route('perumahan.hapus', $pr->id_perumahan) }}" method="POST"
                                             type="button" class="btn btn-danger p-0" onsubmit="return confirm('Delete?')">
                                             @csrf
@@ -143,4 +137,3 @@
 </div>
 
 @endsection
-
