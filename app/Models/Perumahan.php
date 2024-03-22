@@ -37,7 +37,11 @@ class Perumahan extends Model
         'mou_tpu',
         'mou_tps',
         'dok_diterima',
-        'bast'
+        'basta',
+        'bahpl',
+        'bahvl',
+        'bastf',
+        'bastb',
     ];
 
     public function user()

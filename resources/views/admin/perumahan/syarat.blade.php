@@ -167,16 +167,13 @@
         <tr class="align-middle">
             @if ($perumahan->status == 'proses_verifikasi')
                 <td>
-                    <button type="button" class="btn btn-success mr-2" onclick="submitForm('{{ route('perumahan.diterima', $perumahan->id_perumahan) }}')">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#diterima">
                         <i class="fas fa-check"></i> Terima data
                     </button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#alasanDitolak">
                         <i class="fas fa-window-close"></i> Tolak data
                     </button>
-                    <form id="acceptForm" action="{{ route('perumahan.diterima', $perumahan->id_perumahan) }}" method="post" style="display: none;">
-                        @csrf
-                        @method('post')
-                    </form>
+                  
                 </td>
             @elseif($perumahan->status == 'lengkapi_data')
         
@@ -188,13 +185,9 @@
                 </td>
             @elseif($perumahan->status == 'ditolak')
                 <td>
-                    <form action="{{ route('perumahan.diterima', $perumahan->id_perumahan) }}" method="post">
-                        @csrf
-                        @method('post')
-                        <button type="submit" class="btn btn-success">
-                            <i class="fas fa-check"></i> Terima data
-                        </button>
-                    </form>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#diterima">
+                        <i class="fas fa-check"></i> Terima data
+                    </button>
                 </td>
             @endif
         </tr>
@@ -247,6 +240,53 @@
           </div>
       </div>
   </div>
+
+  <div class="modal fade" id="diterima"+ tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">UPLOAD BAST PSU</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body text-gray-900">
+                  <form action="{{ route('perumahan.updatebast', $perumahan->id_perumahan) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    
+                <label  class="form-label text-gray-900">BERITA ACARA SERAH TERIMA ADMINISTRASI : </label>
+                    <input class="form-control" type="file" id="formFile" name="basta" required>
+                    <br>
+                    
+                <label  class="form-label text-gray-900">BERITA ACARA HASIL PEMERIKSAAN LAPANGAN : </label>
+                    <input class="form-control" type="file" id="formFile" name="bahpl" required>
+                    <br>
+                <label  class="form-label text-gray-900">BERITA ACARA HASIL VERIFIKASI KELAYAKAN : </label>
+                    <input class="form-control" type="file" id="formFile" name="bahvl" required>
+                    <br>
+                    
+                <label  class="form-label text-gray-900">BERITA ACARA SERAH TERIMA FISIK : </label>
+                    <input class="form-control" type="file" id="formFile" name="bastf" required>
+                    <br>
+                    
+                <label  class="form-label text-gray-900">BERITA ACARA SERAH TERIMA dengan BUPATI : </label>
+                <input class="form-control" type="file" id="formFile" name="bastb" required>
+                    <br>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>                  
+                </div>
+            </div>
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     {{-- modal lihat surat --}}
     <div class="modal fade" id="lihatsuratpsu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -107,24 +107,91 @@ class AdminController extends Controller
     { 
         
         $this->validate($request, [
-            'bast' => 'mimes:pdf',
+            'basta' => 'mimes:pdf',
+            'bahpl' => 'mimes:pdf',
+            'bahvl' => 'mimes:pdf',
+            'bastf' => 'mimes:pdf',
+            'bastb' => 'mimes:pdf',
             'status' => "diterima"
 
         ]);
         $perumahan = Perumahan::find($id);
 
-        if($request->hasFile('bast')){
+        if($request->hasFile('basta')){
             
-            $bast = $request->file('bast') ;
-            $namabast = 'bast_' . $bast->hashName();
-            $bast->storeAs('public/bast', $namabast);
+            $basta = $request->file('basta') ;
+            $namabasta = 'basta_' . $basta->hashName();
+            $basta->storeAs('public/basta', $namabasta);
 
-            if ($perumahan->bast) {
-                Storage::delete('public/bast/' . $perumahan->bast);
+            if ($perumahan->basta) {
+                Storage::delete('public/basta/' . $perumahan->basta);
             }
 
             $perumahan->update([
-                    'bast' => $namabast,
+                    'basta' => $namabasta,
+                    'status' => "diterima"
+                ]);
+        }
+
+        if($request->hasFile('bahpl')){
+            
+            $bahpl = $request->file('bahpl') ;
+            $namabahpl = 'bahpl_' . $bahpl->hashName();
+            $bahpl->storeAs('public/bahpl', $namabahpl);
+
+            if ($perumahan->bahpl) {
+                Storage::delete('public/bahpl/' . $perumahan->bahpl);
+            }
+
+            $perumahan->update([
+                    'bahpl' => $namabahpl,
+                    'status' => "diterima"
+                ]);
+        }
+
+        if($request->hasFile('bahvl')){
+            
+            $bahvl = $request->file('bahvl') ;
+            $namabahvl = 'bahvl_' . $bahvl->hashName();
+            $bahvl->storeAs('public/bahvl', $namabahvl);
+
+            if ($perumahan->bahvl) {
+                Storage::delete('public/bahvl/' . $perumahan->bahvl);
+            }
+
+            $perumahan->update([
+                    'bahvl' => $namabahvl,
+                    'status' => "diterima"
+                ]);
+        }
+
+        if($request->hasFile('bastf')){
+            
+            $bastf = $request->file('bastf') ;
+            $namabastf = 'bastf_' . $bastf->hashName();
+            $bastf->storeAs('public/bastf', $namabastf);
+
+            if ($perumahan->bastf) {
+                Storage::delete('public/bastf/' . $perumahan->bastf);
+            }
+
+            $perumahan->update([
+                    'bastf' => $namabastf,
+                    'status' => "diterima"
+                ]);
+        }
+        if($request->hasFile('bastb')){
+            
+            $bastb = $request->file('bastb') ;
+            $namabastb = 'bastb_' . $bastb->hashName();
+            $bastb->storeAs('public/bastb', $namabastb);
+
+            if ($perumahan->bastb) {
+                Storage::delete('public/bastb/' . $perumahan->bastb);
+            }
+
+            $perumahan->update([
+                    'bastb' => $namabastb,
                     'status' => "diterima"
                 ]);
         }

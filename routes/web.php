@@ -91,6 +91,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('pengembang/{id}', 'lihatuser')->name('perumahan.perumahanbyuser');
     // Route::get('edit/{id}', 'edit')->name('perumahan.edit');
     // Route::put('edit/{id}', 'update')->name('perumahan.update');
+    Route::put('updatebast/{id}', 'updatebast')->name('perumahan.updatebast');
     
     Route::post('/status/diterima/{id}', 'diterima')->name('perumahan.diterima');
     Route::post('/status/ditolak/{id}', 'ditolak')->name('perumahan.ditolak');

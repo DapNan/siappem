@@ -172,7 +172,7 @@
                                             m<sup>2</sup></strong></li>
                                 @endif
                                 @if ($perumahan->pju > 0)
-                                    <li>Penerangan Jalan Umum : <strong>{{ $perumahan->pju }} m<sup>2</sup></strong></li>
+                                    <li>Penerangan Jalan Umum : <strong>{{ $perumahan->pju }} unit</strong></li>
                                 @endif
                                 @if ($perumahan->tps > 0)
                                     <li>Tempat Pengolahan Sampah : <strong>{{ $perumahan->tps }} m<sup>2</sup></strong>

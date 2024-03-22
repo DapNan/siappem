@@ -113,7 +113,7 @@
         <div class="form-check d-flex align-items-center">
           <input type="checkbox" class="form-check-input" id="checkbox_pju">
           <label class="form-check-label mr-2" for="checkbox_pju">Penerangan Jalan Umum</label>
-              <input type="number" id="input_pju" name="pju" class="form-control hidden" style="width: 100px;" placeholder="m²" disabled> 
+              <input type="number" id="input_pju" name="pju" class="form-control hidden" style="width: 100px;" placeholder="unit" disabled> 
         </div>
       
         <div class="form-check d-flex align-items-center">

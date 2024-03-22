@@ -108,7 +108,7 @@
           <div class="form-check d-flex align-items-center">
               <input type="checkbox" class="form-check-input" id="checkbox_pju" <?php echo ($perumahan->pju) ? 'checked' : ''; ?>>
               <label class="form-check-label mr-2" for="checkbox_pju">Penerangan Jalan Umum :</label>
-                  <input type="number" id="input_pju" name="pju" class="form-control <?php echo ($perumahan->pju) ? '' : 'hidden'; ?>" style="width: 100px;" placeholder="m²" value="{{ $perumahan->pju }}" <?php echo ($perumahan->pju) ? '' : 'disabled'; ?>> 
+                  <input type="number" id="input_pju" name="pju" class="form-control <?php echo ($perumahan->pju) ? '' : 'hidden'; ?>" style="width: 100px;" placeholder="unit" value="{{ $perumahan->pju }}" <?php echo ($perumahan->pju) ? '' : 'disabled'; ?>> 
           </div>
           
           <div class="form-check d-flex align-items-center">
